@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const RSS_FEEDS = [
@@ -18,16 +19,19 @@ const RSS_FEEDS = [
 ];
 
 export default function Home() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSource, setSelectedSource] = useState("All");
   useEffect(() => {
     async function fetchAll() {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let allNews: any[] = [];
       for (const feed of RSS_FEEDS) {
         try {
           const res = await fetch(feed.url);
           const data = await res.json();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const items = (data.items || []).map((item: any) => ({
             ...item,
             source: feed.name,
@@ -91,7 +95,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="block border rounded-xl shadow hover:shadow-lg transition bg-white overflow-hidden"
           >
-            <img
+            <Image
               src={item.image}
               alt={item.title}
               className="w-full h-40 object-cover"

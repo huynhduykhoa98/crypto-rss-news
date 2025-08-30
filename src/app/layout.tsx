@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,25 +25,32 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-        <script src="//customfingerprints.bablosoft.com/clientsafe.js"></script>
-        <script>
-          {`
-            document.addEventListener("DOMContentLoaded", function() {
-              if (typeof ProcessFingerprint === "function") {
-                ProcessFingerprint(false, "t4ck3cjtdi6k9spt4mgu654rxkcuhjm1ya40blt292ffr7getn5nwcr6x8u85r8s");
-              } else {
-                console.error("ProcessFingerprint is not defined. Ensure clientsafe.js is loaded.");
+        <Script
+          id="fingerprint-lib"
+          src="//customfingerprints.bablosoft.com/clientsafe.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          id="fingerprint-script"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+              function waitForFingerprint() {
+                if (typeof ProcessFingerprint === "function") {
+                  ProcessFingerprint(false, "t4ck3cjtdi6k9spt4mgu654rxkcuhjm1ya40blt292ffr7getn5nwcr6x8u85r8s");
+                } else {
+                  console.warn("Waiting for ProcessFingerprint...");
+                  setTimeout(waitForFingerprint, 100);
+                }
               }
-            });
-          `}
-        </script>
+              waitForFingerprint();
+            `,
+          }}
+        />
+        {children}
       </body>
     </html>
   );
