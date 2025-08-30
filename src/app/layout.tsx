@@ -24,10 +24,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <script src="//customfingerprints.bablosoft.com/clientsafe.js"></script>
+        <script>
+          {`
+            document.addEventListener("DOMContentLoaded", function() {
+              if (typeof ProcessFingerprint === "function") {
+                ProcessFingerprint(false, "t4ck3cjtdi6k9spt4mgu654rxkcuhjm1ya40blt292ffr7getn5nwcr6x8u85r8s");
+              } else {
+                console.error("ProcessFingerprint is not defined. Ensure clientsafe.js is loaded.");
+              }
+            });
+          `}
+        </script>
       </body>
     </html>
   );
