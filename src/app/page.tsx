@@ -95,7 +95,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="block border rounded-xl shadow hover:shadow-lg transition bg-white overflow-hidden"
           >
-            <Image
+            <img
               src={item.image}
               alt={item.title}
               className="w-full h-40 object-cover"
